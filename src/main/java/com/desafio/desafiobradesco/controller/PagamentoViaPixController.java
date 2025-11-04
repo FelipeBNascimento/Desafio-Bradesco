@@ -1,6 +1,7 @@
 package com.desafio.desafiobradesco.controller;
 
 import com.desafio.desafiobradesco.business.PagamentoPixService;
+import com.desafio.desafiobradesco.infrastructure.dtos.PagamentoViaPixResponse;
 import com.desafio.desafiobradesco.infrastructure.entity.PagamentoPixEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,9 @@ public class PagamentoViaPixController {
     }
 
     @GetMapping("{pessoa}")
-    public ResponseEntity<List<PagamentoPixEntity>> listar(@PathVariable String pessoa,
-                                                           @RequestParam LocalDate date){
+    public ResponseEntity<List<PagamentoViaPixResponse>> listar(@PathVariable String pessoa,
+                                                                @RequestParam LocalDate date){
+
         return ResponseEntity.ok(service.mostrarPagamentoDia(pessoa,date));
     }
 

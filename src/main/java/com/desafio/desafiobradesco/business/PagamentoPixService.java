@@ -1,5 +1,7 @@
 package com.desafio.desafiobradesco.business;
 
+import com.desafio.desafiobradesco.infrastructure.dtos.Converter;
+import com.desafio.desafiobradesco.infrastructure.dtos.PagamentoViaPixResponse;
 import com.desafio.desafiobradesco.infrastructure.entity.PagamentoPixEntity;
 import com.desafio.desafiobradesco.infrastructure.exceptions.ValorPositivo;
 import com.desafio.desafiobradesco.infrastructure.repository.PagamentoRepository;
@@ -15,6 +17,7 @@ import java.util.List;
 public class PagamentoPixService {
 
     private final PagamentoRepository pagamentoRepository;
+    private final Converter converter;
 
     public void fazerTransferencia(PagamentoPixEntity pagamentoPixEntity){
 
@@ -25,36 +28,35 @@ public class PagamentoPixService {
 
     public void RegraPixValor (Double valor){
 
-        if (valor < 0){
-            throw new ValorPositivo(    "O valor abaixo de zero não pode ser transferido" + valor);
+        if (valor <= 0){
+            throw new ValorPositivo("O valor abaixo de zero não pode ser transferido" + valor);
         }
     }
 
-    public List<PagamentoPixEntity> mostrarPagamentoDia(String nome, LocalDate data){
+    public List<PagamentoViaPixResponse> mostrarPagamentoDia(String nome, LocalDate data){
 
-        return pagamentoRepository.findAllByNomeAndData(nome, data);
-    }
-
-    public List<Double> Porcentagem(String nome, LocalDate data){
-
-        List<PagamentoPixEntity> listapagamento = pagamentoRepository.findAllByNomeAndData
-                (nome, data);
+        List<PagamentoPixEntity> listapagamento =  pagamentoRepository.findAllByNomeAndData(nome, data);
 
         Double soma = listapagamento.stream()
                 .mapToDouble(PagamentoPixEntity::getValor)
                 .sum();
 
-        List<Double> porcentagens = new ArrayList<>();
+        List<PagamentoViaPixResponse> pagamentosComPorcentagem = new ArrayList<>();
 
         for (PagamentoPixEntity pagameto: listapagamento){
 
-             porcentagens.add((pagameto.getValor() / soma)*100);
+            PagamentoViaPixResponse response = converter.paraResponse(pagameto);
+
+            Double porcentagem = ((pagameto.getValor() / soma)*100);
+
+            response.setPorcentagens(porcentagem);
+
+            pagamentosComPorcentagem.add(response);
 
         }
 
-        return porcentagens;
+        return pagamentosComPorcentagem;
 
     }
-
 
 }
