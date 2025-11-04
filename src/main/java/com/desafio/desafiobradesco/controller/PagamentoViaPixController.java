@@ -17,6 +17,7 @@ public class PagamentoViaPixController {
 
     private final PagamentoPixService service;
 
+    // metodo POST para tansferencia
     @PostMapping
     public ResponseEntity<Void> transferir(@RequestBody PagamentoPixEntity pagamentoPixEntity){
 
@@ -25,6 +26,7 @@ public class PagamentoViaPixController {
         return ResponseEntity.ok().build();
     }
 
+    // Metodo GET para visualização de pagamento por pessoa e a data
     @GetMapping("{pessoa}")
     public ResponseEntity<List<PagamentoViaPixResponse>> listar(@PathVariable String pessoa,
                                                                 @RequestParam LocalDate date){

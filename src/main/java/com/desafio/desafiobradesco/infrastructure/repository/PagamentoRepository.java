@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface PagamentoRepository extends JpaRepository<PagamentoPixEntity, Long> {
 
+
     List<PagamentoPixEntity> findAllByNomeAndData(String nome, LocalDate date);
 }
