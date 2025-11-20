@@ -20,12 +20,12 @@ public class PagamentoPixService {
     private final Converter converter;
 
     // criando metodo para fazer a transferancia
-    public void fazerTransferencia(PagamentoPixEntity pagamentoPixEntity){
+    public PagamentoPixEntity fazerTransferencia(PagamentoPixEntity pagamentoPixEntity){
 
         // verificando a regra de negocio
         RegraPixValor(pagamentoPixEntity.getValor());
         // salvando o pagamento realizado no banco de dados
-        pagamentoRepository.save(pagamentoPixEntity);
+        return pagamentoRepository.save(pagamentoPixEntity);
 
     }
 

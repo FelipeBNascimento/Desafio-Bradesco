@@ -19,11 +19,9 @@ public class PagamentoViaPixController {
 
     // metodo POST para tansferencia
     @PostMapping
-    public ResponseEntity<Void> transferir(@RequestBody PagamentoPixEntity pagamentoPixEntity){
+    public ResponseEntity<PagamentoPixEntity> transferir(@RequestBody PagamentoPixEntity pagamentoPixEntity){
 
-        service.fazerTransferencia(pagamentoPixEntity);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(service.fazerTransferencia(pagamentoPixEntity));
     }
 
     // Metodo GET para visualização de pagamento por pessoa e a data

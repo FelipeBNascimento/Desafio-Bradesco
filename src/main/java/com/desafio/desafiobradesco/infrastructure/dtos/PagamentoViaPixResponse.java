@@ -13,6 +13,7 @@ import java.util.List;
 
 public class PagamentoViaPixResponse {
 
+    private Long id;
     private String nome;
     private Double valor;
     private LocalDate data;
